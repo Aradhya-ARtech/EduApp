@@ -31,3 +31,10 @@ class Question(db.Model):
     id = db. Column (db. Integer, primary_key=True)
     text = db. Column (db. String (500), nullable=False)
     topic = db. Column (db. String (50), nullable=False)
+
+with app.app_context():
+    db.create_all()
+    print("Database Tables Created!")
+
+if __name__ == '__main__':
+    app.run(debug = True)
