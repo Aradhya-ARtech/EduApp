@@ -7,9 +7,10 @@ def generate_roadmap (quiz_score, time_taken) :
         return roadmap_message
 from flask import Flask
 from flask_sqlalchemy import SQLAlchemy
+from datetime import datetime 
 
 app = Flask(__name__)
-app.config ['SQLALCHEMY_DATABSE_URI'] = 'sqlite:///ARchieve.db'
+app.config ['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///ARchieve.db'
 app.config ['SQALCHEMY_TRACK_MODIFICATIONS'] = False 
 db = SQLAlchemy(app)
 class QuizResult(db.Model):
@@ -21,16 +22,16 @@ class QuizResult(db.Model):
     date_taken = db.Column(db.DateTime, nullable = False)
 
 class User(db.Model):
-    id = db. Column (db. Integer, primary_key=True)
-    username = db. Column (db. String (80), unique=True, nullable=False)
-    email = db. Column (db.String(120), unique=True, nullable=False)
-    city = db. Column (db. String(50)) 
-    is_premium = db. Column (db. Boolean, default=False)
+    id = db.Column (db. Integer, primary_key=True)
+    username = db.Column (db. String (80), unique=True, nullable=False)
+    email = db.Column (db.String(120), unique=True, nullable=False)
+    city = db.Column (db. String(50)) 
+    is_premium = db.Column (db. Boolean, default=False)
 
 class Question(db.Model):
-    id = db. Column (db. Integer, primary_key=True)
-    text = db. Column (db. String (500), nullable=False)
-    topic = db. Column (db. String (50), nullable=False)
+    id = db.Column (db.Integer, primary_key=True)
+    text = db.Column (db.String (500), nullable=False)
+    topic = db.Column (db.String (50), nullable=False)
 
 with app.app_context():
     db.create_all()
