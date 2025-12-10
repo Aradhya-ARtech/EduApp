@@ -37,5 +37,30 @@ with app.app_context():
     db.create_all()
     print("Database Tables Created!")
 
+def add_first_test_data():
+    with app.app_context():
+        test_user = User.query.filter_by("Aradhya_Test").first()
+        if not test_user:
+            test_user = User(username='Aradhya_Test', email='test@ARchieve.com',city="Greater Noida West")
+            db.session.add(test_user)
+            db.session.commit()
+            print("Test User Created!")
+        test_q = Question.query.filter_by("Polynomials").first()
+        if not test_q:
+            test_q = Question(text='What is x^2 - 4?', topic='Polynomials')
+            db.session.add(test_q)
+            db.session.commit()
+            print("Test Questions Created!")
+        new_result = QuizResult(
+            user_id = test_user.id,
+            question_id = test_q.id,
+            was_correct = True,
+            time_taken_seconds = 15.5,
+            date_taken = datetime.utcnow()
+        )
+        db.session.add(new_result)
+        db.session.commit()
+        print("First Quiz Result Saved!")
+
 if __name__ == '__main__':
     app.run(debug = True)
