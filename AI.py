@@ -32,6 +32,43 @@ class Question(db.Model):
     id = db.Column (db.Integer, primary_key=True)
     text = db.Column (db.String (500), nullable=False)
     topic = db.Column (db.String (50), nullable=False)
+    topic_id = db.column(db.Integer,db.ForeignKey('topic.id'), nullable=False)
+
+class Topic(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    name = db. Column(db.String(50), unique=True, nullable=False)
+    subject = db.Column(db.String(50)) 
+
+class UserTopicProgress(db.Model):
+    id = db.Column(db.Integer, primary_key = True)
+    user_id = db.Column(db.Integer, db.ForeignKey('user.id',))
+    topic_id = db.Column(db.Integer, db.ForeignKey('topic.id'))
+
+    total_attempts = db.Column (db.Integer, default=0)
+    correct_attempts = db.Column (db.Integer, default=0)
+    avg_time = db.Column(db.Float, default=0)
+
+class QuizSession(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    user_id = db.Column(db.Integer, db.ForeignKey('user.id'))
+    score = db.Column(db.Integer)
+    total_questions = db.Column(db.Integer)
+    time_taken = db.Column(db.Float)
+    date_taken = db.Column(db.DateTime, default=datetime.utcnow)
+    session_id = db.Column(db.Integer, db.ForeignKey('quiz_session.id'))
+
+class Roadmap(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    user_id = db.Column(db.Integer, db.ForeignKey('user.id'))
+    weak_topics = db.Column(db.String(300))
+    suggested_plan = db.Column(db.String(500))
+    created_at = db.Column(db.DateTime, default = datetime.utcnow)
+
+class Subscription(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    user_id = db.Column(db.Integer, db.ForeignKey('user.id'))
+    start_date = db.Column(db.DateTime)
+    end_date = db.Column(db.DateTime)
 
 with app.app_context():
     db.create_all()
